@@ -1,6 +1,6 @@
 +++
 date = '2025-03-13T23:00:25+09:00'
-draft = true
+draft = false
 title = 'Redis 기반의 분산 락, 그리고 Redlock 알고리즘'
 lastmodified = "2025-03-13T23:00:25+09:00"
 author = "Chaewon Kong"
@@ -9,18 +9,6 @@ keywords = ['Distributed System', 'Go', 'Redis', 'Redlock Algorithm']
 +++
 
 # Redis 기반의 분산 락, 그리고 Redlock 알고리즘
-
-```text
-date: March 13, 2025
-slug: distributed-lock
-author: 공채원
-status: Public
-tags: Distributed System, Go, Redis, Redlock Algorithm
-summary: 분산 락에 대해 알아본다. Redis를 이용한 간단한 분산 락을 구현해 본다. Redlock 알고리즘에 대해서도 알아본다. Go로 Redlock 알고리즘을 사용하는 방법도 정리한다.
-type: Post
-updatedAt: March 13, 2025 10:37 AM
-category: Software Engineering
-```
 
 분산 락(Distributed Lock)은 여러 프로세스나 노드가 공유 리소스에 동시에 접근할 수 있는 분산 환경에서 리소스를 안전하게 제어하기 위해 사용하는 락 매커니즘이다.
 

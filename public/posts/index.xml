@@ -6,7 +6,21 @@
     <description>Recent content in Posts on Origo Lucis</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Fri, 14 Mar 2025 00:31:28 +0900</lastBuildDate>
     <atom:link href="https://chaewonkong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go의 Reflect 패키지는 얼마나 느릴까</title>
+      <link>https://chaewonkong.github.io/posts/2025-02-09-reflect-is-slow/</link>
+      <pubDate>Fri, 14 Mar 2025 00:31:28 +0900</pubDate>
+      <guid>https://chaewonkong.github.io/posts/2025-02-09-reflect-is-slow/</guid>
+      <description>Go의 reflect package는 type assertion에 비해 얼마나 느릴까?</description>
+    </item>
+    <item>
+      <title>Redis 기반의 분산 락, 그리고 Redlock 알고리즘</title>
+      <link>https://chaewonkong.github.io/posts/2025-03-13-dist-lock-with-redis/</link>
+      <pubDate>Thu, 13 Mar 2025 23:00:25 +0900</pubDate>
+      <guid>https://chaewonkong.github.io/posts/2025-03-13-dist-lock-with-redis/</guid>
+      <description>분산 락에 대해 알아본다. Redis를 이용한 간단한 분산 락을 구현해 본다. Redlock 알고리즘에 대해서도 알아본다. Go로 Redlock 알고리즘을 사용하는 방법도 정리한다.</description>
+    </item>
   </channel>
 </rss>

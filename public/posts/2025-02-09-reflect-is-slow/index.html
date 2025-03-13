@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="ko-kr"
+  dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE = edge, chrome = 1">
+
+<title>
+  Go의 Reflect 패키지는 얼마나 느릴까 @ Origo Lucis
+</title>
+
+<meta name="description" content="Go에서 런타임의 값의 타입을 모르는 경우, type을 읽어오기 위해 reflect 패키지를 사용하기도 한다.
+하지만, 대부분의 Gopher…">
+
+<meta name="generator" content="Hugo 0.145.0">
+
+<link rel="canonical" href="https://chaewonkong.github.io/posts/2025-02-09-reflect-is-slow/">
+
+<meta property="og:type" content="website">
+
+<meta property="og:locale" content="ko-kr">
+<meta property="og:title" content='Go의 Reflect 패키지는 얼마나 느릴까 @ Origo Lucis'>
+<meta property="og:site_name" content="Origo Lucis">
+<meta property="og:description" content="Go에서 런타임의 값의 타입을 모르는 경우, type을 읽어오기 위해 reflect 패키지를 사용하기도 한다.
+하지만, 대부분의 Gopher…">
+<meta property="og:url" content="https://chaewonkong.github.io/posts/2025-02-09-reflect-is-slow/">
+
+<meta property="og:image" content="">
+<meta name="twitter:image" content="">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="shortcut icon" href="/assets/imgs/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/imgs/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/imgs/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/imgs/apple-touch-icon.png">
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/scss/main.min.fabb31cf85f03d3731d1411315a74cb36f18957f914498c3caba85e4aeeec381.css" integrity="sha256-&#43;rsxz4XwPTcx0UETFadMs28YlX&#43;RRJjDyrqF5K7uw4E=" crossorigin="anonymous">
+
+
+
+
+<script>
+  (function () {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
+
+
+
+
+<style>
+  @font-face {
+    font-family: 'jicaleta';
+    src: url('/assets/fonts/Jicaleta-Regular.83dd0e7b882bf278618f3db4d4f27c08f8af4d569257a4378e51e3f602e135ca.woff2') format('woff2'),
+    url('/assets/fonts/Jicaleta-Regular.f075ee85c86402151d90c4704f7d86ff7ed52e49e7da47e201ee4f7e6f76d2ff.woff') format('woff');
+  }
+</style>
+
+
+
+
+
+<style>
+  @font-face {
+    font-family: 'Fira Code';
+    src: url('/assets/fonts/FiraCode-Regular.a6ce59520b90e15d7062ffef214f94c8add5a4085c0bbb1683602ef227a4d1fe.woff2') format('woff2'),
+    url('/assets/fonts/FiraCode-Regular.e4b5a20d572b7f718d64c884e4e48cb7e45303ab50722011469ee2e1964bff6d.woff') format('woff');
+  }
+</style>
+
+
+
+
+
+
+<script src="/assets/js/main.a1705cf2bca9b9181a67ed9296a89dfe1d4eff01cbb087f01c335f4544be1484.js" integrity="sha256-oXBc8rypuRgaZ&#43;2Slqid/h1O/wHLsIfwHDNfRUS&#43;FIQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+        <div class="navbar-top" id="top">
+            <div class="navbar-logo">
+                <a href="https://chaewonkong.github.io/" class="logo-text" style="font-family: jicaleta;">
+                    
+                    Origo Lucis
+                    
+                </a>
+            </div>
+            <div class="navbar-burger" id="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="navbar-menu">
+            <div class="navbar-link-list">
+                
+                <a href="/" class="navbar-link-item">Home</a>
+                
+                <a href="/about" class="navbar-link-item">About</a>
+                
+                <a href="/posts" class="navbar-link-item">Posts</a>
+                
+                <a href="/search" class="navbar-link-item">Search</a>
+            </div>
+            <div class="theme-toggle">
+                <div id="theme-toggle-btn">🌙</div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  <main>
+    
+
+
+
+<h1>Go의 Reflect 패키지는 얼마나 느릴까</h1>
+
+<div class="article-tag">
+  
+  
+  
+  <time datetime="2025-03-14T00:31:28">Posted on 2025-03-14&nbsp;,&nbsp;</time>
+  
+  
+  
+  <time datetime="2025-03-14T00:31:28">Last modified on 2025-03-14&nbsp;,&nbsp;</time>
+  
+  <span class="article-author">by&nbsp;Chaewon Kong</span>
+  
+</div>
+
+<p>Go에서 런타임의 값의 타입을 모르는 경우, type을 읽어오기 위해 reflect 패키지를 사용하기도 한다.</p>
+<p>하지만, 대부분의 Gopher들은 reflect 패키지는 느리므로 사용시 주의가 필요하다는 얘기를 신조처럼 받아들이고 있다.</p>
+<p>그렇다면 reflect는 실제로 얼마나 느릴까?</p>
+<p>궁금해서 간단한 벤치마크를 돌려봤다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#d6cbb4;background-color:#252b2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#e67e80">package</span> reflectpkg_test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e67e80">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#b2c98f">&#34;reflect&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#b2c98f">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#859289;font-style:italic">// Type switch approach</span>
+</span></span><span style="display:flex;"><span><span style="color:#e67e80">func</span> <span style="color:#b2c98f">checkTypeSwitch</span>(value <span style="color:#e67e80">interface</span>{}) <span style="color:#dbbc7f">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">switch</span> value.(<span style="color:#e67e80">type</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">case</span> <span style="color:#dbbc7f">string</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;string&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">case</span> <span style="color:#dbbc7f">int</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;int&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">case</span> <span style="color:#dbbc7f">bool</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;bool&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;unknown&#34;</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#859289;font-style:italic">// reflect approach</span>
+</span></span><span style="display:flex;"><span><span style="color:#e67e80">func</span> <span style="color:#b2c98f">checkTypeReflect</span>(value <span style="color:#e67e80">interface</span>{}) <span style="color:#dbbc7f">string</span> {
+</span></span><span style="display:flex;"><span>	t <span style="color:#7a8478">:=</span> reflect.<span style="color:#b2c98f">TypeOf</span>(value)
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">if</span> t.<span style="color:#b2c98f">Kind</span>() <span style="color:#7a8478">==</span> reflect.String {
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;string&#34;</span>
+</span></span><span style="display:flex;"><span>	} <span style="color:#e67e80">else</span> <span style="color:#e67e80">if</span> t.<span style="color:#b2c98f">Kind</span>() <span style="color:#7a8478">==</span> reflect.Int {
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;int&#34;</span>
+</span></span><span style="display:flex;"><span>	} <span style="color:#e67e80">else</span> <span style="color:#e67e80">if</span> t.<span style="color:#b2c98f">Kind</span>() <span style="color:#7a8478">==</span> reflect.Bool {
+</span></span><span style="display:flex;"><span>		<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;bool&#34;</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">return</span> <span style="color:#b2c98f">&#34;unknown&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#859289;font-style:italic">// Benchmark test</span>
+</span></span><span style="display:flex;"><span><span style="color:#e67e80">func</span> <span style="color:#b2c98f">BenchmarkTypeSwitch</span>(b <span style="color:#7a8478">*</span>testing.B) {
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">for</span> i <span style="color:#7a8478">:=</span> <span style="color:#d699b6">0</span>; i &lt; b.N; i<span style="color:#7a8478">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeSwitch</span>(<span style="color:#b2c98f">&#34;hello&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeSwitch</span>(<span style="color:#d699b6">42</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeSwitch</span>(<span style="color:#e67e80">true</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e67e80">func</span> <span style="color:#b2c98f">BenchmarkReflect</span>(b <span style="color:#7a8478">*</span>testing.B) {
+</span></span><span style="display:flex;"><span>	<span style="color:#e67e80">for</span> i <span style="color:#7a8478">:=</span> <span style="color:#d699b6">0</span>; i &lt; b.N; i<span style="color:#7a8478">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeReflect</span>(<span style="color:#b2c98f">&#34;hello&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeReflect</span>(<span style="color:#d699b6">42</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#b2c98f">checkTypeReflect</span>(<span style="color:#e67e80">true</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>string 타입의 value를 받아서 type이 무엇인지 반환하는 함수를 두개 만들었다.</p>
+<p><code>checkTypeSwitch</code> 는 switch문을 이용해 type assertion을 하고 맞는 type을 string으로 반환한다.</p>
+<p><code>checkTypeReflect</code> 는 reflect 패키지를 이용해 type을 가져오고 해당 type을 string으로 반환한다.</p>
+<p>벤치 결과는 어떻게 될까?</p>
+<h2 id="type-assertion">Type Assertion</h2>
+<div class="highlight"><pre tabindex="0" style="color:#d6cbb4;background-color:#252b2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>BenchmarkTypeSwitch
+</span></span><span style="display:flex;"><span>BenchmarkTypeSwitch<span style="color:#7a8478">-</span><span style="color:#d699b6">8</span>           <span style="color:#d699b6">1000000000</span>               <span style="color:#d699b6">0.2914</span> ns<span style="color:#7a8478">/</span>op          <span style="color:#d699b6">0</span> B<span style="color:#7a8478">/</span>op          <span style="color:#d699b6">0</span> allocs<span style="color:#7a8478">/</span>op
+</span></span></code></pre></div><h2 id="reflect">reflect</h2>
+<div class="highlight"><pre tabindex="0" style="color:#d6cbb4;background-color:#252b2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>BenchmarkReflect
+</span></span><span style="display:flex;"><span>BenchmarkReflect<span style="color:#7a8478">-</span><span style="color:#d699b6">8</span>      <span style="color:#d699b6">135978163</span>                <span style="color:#d699b6">8.586</span> ns<span style="color:#7a8478">/</span>op           <span style="color:#d699b6">0</span> B<span style="color:#7a8478">/</span>op          <span style="color:#d699b6">0</span> allocs<span style="color:#7a8478">/</span>op
+</span></span></code></pre></div><h2 id="결론">결론</h2>
+<p>Type Assertion의 경우 한 번 실행하는 데 0.3 나노초가 걸린 데 반해 reflect는 8.6 나노초가 걸렸다. reflect 패키지를 사용한 경우가 28.6배 더 시간이 걸린 걸 알 수 있다.</p>
+<p>확실히 성능 상 차이가 크게 남을 알 수 있었다.</p>
+
+
+<div class="article-license">
+  
+</div>
+
+  </main>
+
+  
+<div class="backtotop">
+    <div id="back-to-top" onclick="scrollToTop()">Back To Top</div>
+</div>
+
+
+  <footer class="footer">
+    <span>&copy; 2025 . All rights reserved.</span>
+    <span>Powered by <a href="https://gohugo.io">Hugo</a> & <a href="https://github.com/khitezza/vortisil/">Vortisil</a>.</span>
+</footer>
+
+  
+    
+      
+      
+      <script src="/assets/js/theme-toggle.0c46a399136fbcbf2fcedf666956eed2d017d5d633b5e1c35c38854960590da8.js" integrity="sha256-DEajmRNvvL8vzt9maVbu0tAX1dYzteHDXDiFSWBZDag=" crossorigin="anonymous"></script>
+      
+    
+  
+</body>
+
+</html>
