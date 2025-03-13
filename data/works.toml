@@ -1,0 +1,4 @@
+[[works]]
+  name = "LinkedIn" # Title of the work.
+  url = "https://www.linkedin.com/in/chaewonkong/" # Works website (Git repository or product site).
+  desc = "Find more projects and experience in Linked In" # Description.
