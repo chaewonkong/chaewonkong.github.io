@@ -1,0 +1,39 @@
+baseURL = 'https://chaewonkong.github.io'
+languageCode = 'ko-kr'
+title = 'Origo Lucis'
+theme = 'vortisil'
+pagination.pagerSize = 9
+hasCJKLanguage = true
+enableEmoji = true
+disableKinds = ["taxonomy","term"] # DO NOT MODIFY
+
+[params]
+    author = "Chaewon Kong"
+
+[params.meta]
+    description = "Chaewon Kong's Tech Blog"
+
+[[menus.main]]
+    identifier = "home"
+    url = "/"
+    weight = 1
+
+[[menus.main]]
+    identifier = "about"
+    url = "/about"
+    weight = 2
+
+[[menus.main]]
+    identifier = "posts"
+    url = "/posts"
+    weight = 3
+
+[markup]
+    [markup.highlight]
+        style = "evergarden"
+        tabWidth = 4
+        codeFences = true
+        guessSyntax = true
+
+[outputs]
+    home = ["HTML", "JSON"]
