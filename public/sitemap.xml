@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://chaewonkong.github.io/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2025-03-13T23:15:40+09:00</lastmod>
   </url><url>
-    <loc>https://chaewonkong.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2025-03-13T23:15:40+09:00</lastmod>
   </url><url>
-    <loc>https://chaewonkong.github.io/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-03-13T23:00:25+09:00</lastmod>
   </url><url>
-    <loc>https://chaewonkong.github.io/posts/2025-03-13-dist-lock-with-redis/</loc>
+    <loc>http://localhost:1313/posts/2025-03-13-dist-lock-with-redis/</loc>
     <lastmod>2025-03-13T23:00:25+09:00</lastmod>
   </url><url>
-    <loc>https://chaewonkong.github.io/posts/2025-02-09-reflect-is-slow/</loc>
+    <loc>http://localhost:1313/posts/2025-02-09-reflect-is-slow/</loc>
     <lastmod>2025-02-09T00:31:28+09:00</lastmod>
   </url><url>
-    <loc>https://chaewonkong.github.io/search/</loc>
+    <loc>http://localhost:1313/search/</loc>
   </url>
 </urlset>
