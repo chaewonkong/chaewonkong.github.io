@@ -50,3 +50,10 @@ lua로 설정하고, LSP가 built-in이고 등등 장점이 많다.
 아직은 command key binding이 익숙하진 않지만, 금방 익숙해질 거라 생각한다.
 
 LunarVim과 함께 쓰면 편리할 것 같다.
+
+### 업데이트
+어쩌다 보니 LunarVim을 버리고 [LazyVim](https://www.lazyvim.org/)으로 왔다. 이유는 크게 없고, "간지"가 컸다.
+
+쓰고 있는데 너무 멋있다(ㅋㅋ)
+
+일단 써 보면서 더 업데이트 할 수 있을 것 같다.
