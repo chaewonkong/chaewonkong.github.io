@@ -18,9 +18,8 @@ SortBy              = "default"
     lastUpdated = ":date_full"
 
 [sidebar]
-    emoji    = "🍥"
-    subtitle = "Backend engineer with 4+ years of experience in Go, specializing in real-time matchmaking and distributed systems"
-    avatar   = "img/avatar.png"
+    subtitle = "An engineer who plays the violin"
+    avatar   = "img/profile.jpg"
 
 [article]
     headingAnchor = false

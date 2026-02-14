@@ -22,3 +22,11 @@
 
     [social.params]
         icon = "brand-twitter"
+
+[[social]]
+    identifier = "linkedin"
+    name       = "linkedin"
+    url        = "https://www.linkedin.com/in/chaewonkong"
+
+    [social.params]
+        icon = "brand-linkedin"

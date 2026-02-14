@@ -1,7 +1,7 @@
 # Change baseurl before deploy
 baseurl      = "https://blog.engineerd.net"
 languageCode = "en-us"
-title        = "Chae won Kong"
+title        = "Chae Won Kong"
 
 # Theme i18n support
 # See all available values at https://github.com/CaiJimmy/hugo-theme-stack/tree/master/i18n
