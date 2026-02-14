@@ -7,7 +7,7 @@ outputs:
     - json
 menu:
     main:
-        weight: 1
+        weight: 2
         params: 
             icon: user
 ---
@@ -56,9 +56,3 @@ Backend engineer with 4+ years in Go specializing in real-time matchmaking and d
 
 - **Frontend Engineer**, Banksalad *(2020–2022)*
 - **Co-Founder**, Oh Good Project *(2020–2022)*
-
----
-
-## Education
-
-**B.A. in Business Administration**
