@@ -1,9 +1,9 @@
 ---
-title: Redis-based Distributed Lock and the Redlock Algorithm
+title: "Redis-Based Distributed Locks and the Redlock Algorithm"
+slug: "redis-dist-lock"
 date: 2025-03-13T23:00:25+09:00
 lastmod: 2025-03-13T23:00:25+09:00
-author: Chaewon Kong
-description: Learn about distributed locks, implement a simple Redis-based distributed lock, and explore the Redlock algorithm and its usage in Go.
+description: "From a single SET NX to Redlock, and why Martin Kleppmann argues it still is not enough."
 tags:
   - distributed-systems
   - go
@@ -12,11 +12,7 @@ tags:
 categories:
   - distributed-systems
   - backend
-  - go
-  - redis
 ---
-
-# Redis-Based Distributed Locks and the Redlock Algorithm
 
 A distributed lock is a locking mechanism used to safely control access to shared resources in distributed environments where multiple processes or nodes can access those resources simultaneously.
 
