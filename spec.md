@@ -293,10 +293,10 @@ FOUC 방지를 위해 `</head>` 직전에 **인라인·동기 스크립트**를 
 |---|---|
 | `module.toml` | **삭제** (테마 모듈 import 제거) |
 | `params.toml` | stack 전용 파라미터 전부 삭제. `mainSections`, `rssFullContent`, footer 정보만 남김 |
-| `menu.toml` | `[[main]]`에 posts / about 등록. social 링크는 `params.social`로 이동 |
+| `menu.toml` | **삭제.** 메뉴가 posts/about 2개뿐이라 `partials/header.html`에서 i18n + `relLangURL`로 직접 그린다. Hugo 메뉴 설정은 언어별 파일 분리(`menus.<lang>.toml`) + `pageRef` 해석까지 얽혀 2개 항목에는 과하다. social 링크는 `params.social`로 이동 |
 | `markup.toml` | 위 4.3 highlight 설정으로 교체. passthrough(LaTeX) 제거, TOC 설정 제거 |
 | `_languages.toml` | → `languages.toml`로 이름 변경, `[ko]`(weight 1) / `[en]`(weight 2) 정의 |
-| `config.toml` | `title = "chaewonkong"`, `baseurl = "https://blog.engineerd.net/"`, `defaultContentLanguage = "ko"`, `defaultContentLanguageInSubdir = true`, `hasCJKLanguage = true`, 미사용 항목 정리 |
+| `config.toml` | `title = "chaewonkong"`, `baseurl = "https://blog.engineerd.net/"`, `defaultContentLanguage = "ko"`, `defaultContentLanguageInSubdir = true`, `hasCJKLanguage = true`. 홈·택소노미 모두 전체 나열이므로 `pagination.pagerSize`는 사실상 무제한(9999). `[taxonomies]`에 tag/category 명시 |
 | `related.toml`, `permalinks.toml` | related는 삭제, permalinks는 유지 |
 
 `i18n/ko.toml`, `i18n/en.toml`에 UI 문자열(`posts`, `about`, `tags`, `no_posts` 등)을 둔다.

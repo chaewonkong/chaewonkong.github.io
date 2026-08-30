@@ -1,26 +1,11 @@
-# Markdown renderer configuration
 [goldmark.renderer]
+    # 마크다운 안의 raw HTML 허용
     unsafe = true
 
-[goldmark.extensions.passthrough]
-    enable = true
-
-    # LaTeX math support
-    # https://gohugo.io/content-management/mathematics/
-    [goldmark.extensions.passthrough.delimiters]
-        block  = [['\[', '\]'], ['$$', '$$']]
-        inline = [['\(', '\)']]
-
-[tableOfContents]
-    endLevel   = 4
-    ordered    = true
-    startLevel = 2
-
 [highlight]
-    noClasses          = false
-    codeFences         = true
-    guessSyntax        = true
-    lineNoStart        = 1
-    lineNos            = true
-    lineNumbersInTable = true
-    tabWidth           = 4
+    # CSS 클래스 방식. 다크모드 수동 토글에 필수 (spec.md §4.3)
+    noClasses   = false
+    codeFences  = true
+    guessSyntax = false
+    lineNos     = false
+    tabWidth    = 4

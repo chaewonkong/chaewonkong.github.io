@@ -1,0 +1,14 @@
+nav_posts   = "posts"
+nav_about   = "about"
+
+tags        = "태그"
+categories  = "카테고리"
+posts_in    = "이 태그의 글"
+post_count  = "글 {{ .Count }}개"
+
+prev_post   = "이전 글"
+next_post   = "다음 글"
+
+not_found         = "페이지를 찾을 수 없습니다."
+back_home         = "홈으로"
+no_translation    = "이 글은 아직 번역되지 않았습니다."

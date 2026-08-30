@@ -1,0 +1,14 @@
+nav_posts   = "posts"
+nav_about   = "about"
+
+tags        = "Tags"
+categories  = "Categories"
+posts_in    = "Posts tagged"
+post_count  = "{{ .Count }} posts"
+
+prev_post   = "Previous"
+next_post   = "Next"
+
+not_found         = "Page not found."
+back_home         = "Go home"
+no_translation    = "This post has not been translated yet."

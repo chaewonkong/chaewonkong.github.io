@@ -2,14 +2,6 @@
 title: "About"
 slug: "about"
 layout: "single"
-outputs:
-    - html
-    - json
-menu:
-    main:
-        weight: 2
-        params: 
-            icon: user
 ---
 # Chae Won Kong
 ### Software Engineer
