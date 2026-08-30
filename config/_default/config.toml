@@ -11,6 +11,10 @@ hasCJKLanguage                 = true
 enableRobotsTXT = true
 enableEmoji     = true
 
+# 홈이 곧 전체 글 목록이라 섹션 목록(/ko/post/, /ko/page/)은 중복이다.
+# 어디서도 링크하지 않으면서 sitemap에만 남으므로 아예 만들지 않는다.
+disableKinds = ["section"]
+
 # 홈/택소노미 모두 전체 나열. 페이지네이션 없음.
 [pagination]
     pagerSize = 9999

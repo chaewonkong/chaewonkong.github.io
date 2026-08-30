@@ -299,7 +299,29 @@ FOUC 방지를 위해 `</head>` 직전에 **인라인·동기 스크립트**를 
 | `config.toml` | `title = "chaewonkong"`, `baseurl = "https://blog.engineerd.net/"`, `defaultContentLanguage = "ko"`, `defaultContentLanguageInSubdir = true`, `hasCJKLanguage = true`. 홈·택소노미 모두 전체 나열이므로 `pagination.pagerSize`는 사실상 무제한(9999). `[taxonomies]`에 tag/category 명시 |
 | `related.toml`, `permalinks.toml` | related는 삭제, permalinks는 유지 |
 
-`i18n/ko.toml`, `i18n/en.toml`에 UI 문자열(`posts`, `about`, `tags`, `no_posts` 등)을 둔다.
+`i18n/ko.toml`, `i18n/en.toml`에 UI 문자열(`nav_posts`, `nav_about`, `not_found` 등)을 둔다.
+
+**Hugo 0.156~0.158 deprecation** — 아래는 경고 없이 빌드하기 위해 반드시 새 이름을 쓴다.
+
+| 옛 것 | 새 것 |
+|---|---|
+| `languages.<lang>.languageName` | `label` |
+| `languages.<lang>.languageCode` | `locale` |
+| `languages.<lang>.languageDirection` | `direction` |
+| `.Language.LanguageCode` | `.Language.Locale` (html `lang`에는 `.Language.Lang`) |
+| `site.Languages` / `.Site.Sites` | `hugo.Sites` |
+| `layouts/_default/`, `layouts/partials/` | `layouts/`, `layouts/_partials/` |
+
+### 5.2 섹션 목록과 RSS
+
+**`disableKinds = ["section"]`** — 홈이 곧 전체 글 목록이라 `/ko/post/`, `/ko/page/`는 내용이
+중복된다. 어디서도 링크되지 않으면서 sitemap에만 남으므로 아예 만들지 않는다.
+
+**`layouts/rss.xml` (내장 RSS 대체)** — Hugo 내장 RSS 템플릿은 두 가지가 스펙과 어긋난다.
+1. 홈 피드에 `.Pages`를 그대로 실어 **about 페이지까지 포함**시킨다 → `mainSections`로 좁힌다.
+2. 본문 대신 `.Summary`만 넣는다 → `rssFullContent` 파라미터를 실제로 반영해 `.Content`를 싣는다.
+
+최근 50개로 제한한다.
 
 ### 5.1 도메인 (blog.engineerd.net + chaewonkong.github.io)
 
@@ -364,23 +386,23 @@ content/page/archives/, content/page/search/
 ├── i18n/
 │   ├── ko.toml
 │   └── en.toml
-├── layouts/
-│   ├── _default/
-│   │   ├── baseof.html
-│   │   ├── list.html          # 택소노미 목록
-│   │   ├── single.html
-│   │   └── terms.html
-│   ├── partials/
-│   │   ├── head.html
-│   │   ├── header.html
-│   │   ├── footer.html
-│   │   ├── lang-switch.html
-│   │   ├── theme-toggle.html
-│   │   └── post-meta.html
+├── layouts/                   # Hugo 0.146+ 플랫 구조 (_default/ 아님)
+│   ├── baseof.html
+│   ├── home.html              # 홈 = 글 목록
+│   ├── single.html            # 폴백
 │   ├── post/single.html
 │   ├── page/single.html
-│   ├── index.html             # 홈 = 글 목록
-│   └── 404.html
+│   ├── taxonomy.html          # 태그·카테고리 목록
+│   ├── term.html              # 태그별 글 목록
+│   ├── rss.xml                # 내장 RSS 대체 (아래 §5.2)
+│   ├── 404.html
+│   └── _partials/             # layouts/partials/ 아님
+│       ├── head.html
+│       ├── header.html
+│       ├── footer.html        # 테마 토글 JS 포함
+│       ├── lang-switch.html
+│       ├── post-list.html
+│       └── post-meta.html
 ├── assets/css/
 │   ├── main.css
 │   └── chroma.css             # 생성물 (light + dark @media)

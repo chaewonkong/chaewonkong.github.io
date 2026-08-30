@@ -1,0 +1,14 @@
+{{- /* 번역본이 있으면 그 글로, 없으면 해당 언어 홈으로 보낸다 */ -}}
+{{- $page := . -}}
+{{- $trans := dict -}}
+{{- range $page.AllTranslations -}}
+  {{- $trans = merge $trans (dict .Lang .RelPermalink) -}}
+{{- end -}}
+<span class="lang">
+{{- range $i, $s := hugo.Sites -}}
+  {{- if $i }}|{{ end -}}
+  {{- $lang := $s.Language.Lang -}}
+  {{- $href := or (index $trans $lang) $s.Home.RelPermalink -}}
+  <a href="{{ $href }}" hreflang="{{ $lang }}"{{ if eq $lang $page.Lang }} class="on"{{ end }}>{{ upper $lang }}</a>
+{{- end -}}
+</span>

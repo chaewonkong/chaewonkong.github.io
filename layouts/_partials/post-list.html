@@ -1,0 +1,12 @@
+{{- /* context: 글 페이지 슬라이스 */ -}}
+<ul class="post-list">
+{{- range . }}
+  <li>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+    <a class="entry-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{- with .Description }}
+    <p class="entry-summary">{{ . }}</p>
+    {{- end }}
+  </li>
+{{- end }}
+</ul>

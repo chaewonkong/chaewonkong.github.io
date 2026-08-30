@@ -1,0 +1,4 @@
+{{ define "main" }}
+{{- $posts := where site.RegularPages "Section" "in" site.Params.mainSections }}
+{{ partial "post-list.html" $posts }}
+{{ end }}

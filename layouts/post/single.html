@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article>
+  <h1>{{ .Title }}</h1>
+  {{ partial "post-meta.html" . }}
+  {{ .Content }}
+  {{- if or .PrevInSection .NextInSection }}
+  <hr>
+  <nav class="post-nav post-meta">
+    {{- with .NextInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}
+    {{- with .PrevInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
+  </nav>
+  {{- end }}
+</article>
+{{ end }}

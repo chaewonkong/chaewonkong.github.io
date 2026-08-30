@@ -1,0 +1,11 @@
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ "" | relLangURL }}">{{ site.Title }}</a>
+    <nav class="site-nav">
+      <a href="{{ "" | relLangURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>{{ i18n "nav_posts" }}</a>
+      <a href="{{ "about/" | relLangURL }}"{{ if eq .RelPermalink (("about/" | relLangURL)) }} aria-current="page"{{ end }}>{{ i18n "nav_about" }}</a>
+      {{ partial "lang-switch.html" . }}
+      {{ partial "theme-toggle.html" . }}
+    </nav>
+  </div>
+</header>

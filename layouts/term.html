@@ -1,0 +1,7 @@
+{{ define "main" }}
+<article>
+  <h1>{{ .Title }}</h1>
+  <div class="post-meta">{{ i18n "post_count" (dict "Count" (len .Pages)) }}</div>
+</article>
+{{ partial "post-list.html" .Pages }}
+{{ end }}
