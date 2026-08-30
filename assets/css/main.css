@@ -1,1 +1,292 @@
-/* 4단계에서 채운다 (design/mockup.html의 [1] SITE CSS 이식) */
+/* chaewonkong.github.io — 사이트 스타일
+ *
+ * 확정된 수치의 근거: design/mockup.html (1단계 시안), spec.md §4
+ * 코드 하이라이팅은 chroma.css가 담당한다. head.html에서 둘을 concat한다.
+ */
+
+:root {
+  --bg:       #ffffff;
+  --fg:       #111111;
+  --muted:    #6b6b6b;
+  --border:   #e5e5e5;
+  --link:     #0b57d0;
+  --code-bg:  #eff1f5;
+
+  --w:        800px;
+  --pad:      24px;
+
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --bg:      #000000;
+    --fg:      #e6e6e6;
+    --muted:   #8a8a8a;
+    --border:  #222222;
+    --link:    #7aa2f7;
+    --code-bg: #1e1e2e;
+  }
+}
+
+html[data-theme="dark"] {
+  --bg:      #000000;
+  --fg:      #e6e6e6;
+  --muted:   #8a8a8a;
+  --border:  #222222;
+  --link:    #7aa2f7;
+  --code-bg: #1e1e2e;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.wrap {
+  max-width: var(--w);
+  margin: 0 auto;
+  /* 상하는 건드리지 않는다. 단축 속성을 쓰면 main의 padding-top을 덮어쓴다 */
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: var(--fg); }
+
+/* --- header --- */
+
+.site-header { border-bottom: 1px solid var(--border); }
+
+.site-header .wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 24px;
+  padding-bottom: 16px;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1.3125rem;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover,
+.site-nav a[aria-current="page"] { color: var(--fg); }
+
+.lang { display: inline-flex; align-items: baseline; gap: 5px; color: var(--border); }
+.lang a { color: var(--muted); }
+.lang a.on { color: var(--fg); }
+
+.theme-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--fg); }
+
+/* --- footer --- */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+}
+.site-footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 40px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { color: var(--fg); }
+.site-footer nav { display: flex; gap: 14px; }
+
+/* --- main --- */
+
+main { padding-top: 64px; }
+
+.post-list li:first-child { padding-top: 0; }
+
+/* --- home / list --- */
+
+.post-list { list-style: none; margin: 0; padding: 0; }
+.post-list li { padding: 15px 0; }
+
+.post-list time {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-title {
+  display: inline-block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--fg);
+  text-decoration: none;
+}
+.entry-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.entry-summary {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.post-list time { display: block; margin-bottom: 3px; }
+
+.list-year {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 28px 0 6px;
+}
+.list-year:first-child { margin-top: 0; }
+
+/* --- article --- */
+
+article h1 {
+  font-size: 1.6rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+
+.post-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 36px;
+}
+.post-meta a { color: var(--muted); text-decoration: none; }
+.post-meta a:hover { color: var(--fg); text-decoration: underline; }
+
+article h2 { font-size: 1.25rem; font-weight: 600; margin: 44px 0 12px; letter-spacing: -0.01em; }
+article h3 { font-size: 1.05rem; font-weight: 600; margin: 32px 0 10px; }
+
+article p { margin: 0 0 18px; }
+article ul, article ol { margin: 0 0 18px; padding-left: 1.4em; }
+article li { margin: 4px 0; }
+
+article blockquote {
+  margin: 0 0 18px;
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+  color: var(--muted);
+}
+
+article img { max-width: 100%; height: auto; display: block; }
+
+article hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 18px; }
+article table { border-collapse: collapse; font-size: 0.9rem; min-width: 100%; }
+article th, article td {
+  text-align: left;
+  padding: 7px 14px 7px 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+article th { font-weight: 600; }
+
+/* --- code --- */
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.highlight { margin: 0 0 18px; }
+
+.highlight pre.chroma,
+pre.chroma {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+/* --- taxonomy --- */
+
+.term-list { list-style: none; margin: 0; padding: 0; }
+.term-list li { padding: 4px 0; }
+.term-list a { color: var(--fg); text-decoration: none; }
+.term-list a:hover { text-decoration: underline; }
+.term-list .count { color: var(--muted); font-size: 0.85rem; }
+
+/* --- 404 --- */
+
+.notfound { padding: 40px 0 80px; color: var(--muted); }
+
+/* --- mobile --- */
+
+@media (max-width: 640px) {
+  :root { --pad: 16px; }
+
+  .site-header .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 18px;
+  }
+
+  .site-nav { gap: 14px; width: 100%; }
+  .site-nav .theme-toggle { margin-left: auto; }
+
+  main { padding-top: 44px; }
+
+  .post-list li { padding: 13px 0; }
+  .entry-title { font-size: 1.0625rem; }
+
+  article h1 { font-size: 1.4rem; }
+  article h2 { font-size: 1.15rem; margin-top: 36px; }
+
+  .site-footer .wrap { flex-direction: column; gap: 8px; }
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
