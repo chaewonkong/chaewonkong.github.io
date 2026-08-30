@@ -2,6 +2,9 @@
 <article>
   <h1>{{ .Title }}</h1>
   {{ partial "post-meta.html" . }}
+  {{- if eq (len .AllTranslations) 1 }}
+  <p class="translation-note">{{ i18n "translation_missing" }}</p>
+  {{- end }}
   {{ .Content }}
   {{- if or .PrevInSection .NextInSection }}
   <hr>

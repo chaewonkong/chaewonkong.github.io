@@ -290,3 +290,9 @@ pre.chroma {
   justify-content: space-between;
   gap: 16px;
 }
+
+.translation-note {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}

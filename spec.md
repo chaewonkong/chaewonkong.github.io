@@ -143,6 +143,23 @@ SET NX PX 한 줄에서 시작해 Redlock까지, 분산 락이 조용히 정확�
 - 썸네일·태그는 목록에 노출하지 않는다.
 - `description`이 비어 있으면 요약 줄 자체를 렌더하지 않는다 (`.Description` 존재 여부로 분기).
 
+#### 번역본이 없는 글
+
+**두 언어 목록 모두에 전체 글이 뜬다.** 이 언어에 번역본이 없는 글은 원문 URL로 링크하고,
+그 글 상단에 안내 줄을 붙인다(§3.3). 목록에서는 아무 표시도 하지 않는다 — 제목과 요약이
+원문 언어로 그대로 보이므로 그 자체로 충분하다.
+
+Hugo의 다국어는 언어별로 사이트가 분리되어 있어 `site.RegularPages`에는 해당 언어 글만 담긴다.
+따라서 `hugo.Sites`를 순회해 다른 언어에만 있는 글을 모아 붙이고 날짜순으로 다시 정렬한다.
+같은 글인지는 **페이지 번들 디렉터리(`.File.Dir`)** 로 판단한다. `slug`와 달리 front matter에
+없어도 언어 간 항상 동일하기 때문이다.
+
+`/en/p/<slug>/` 형태의 빈 스텁 페이지는 만들지 않는다. 그러려면 콘텐츠 어댑터로 원문 본문을
+복제해야 하는데, 같은 글이 두 URL에 존재하게 되어 canonical이 갈린다.
+
+**RSS는 해당 언어 글만 싣는다.** 목록과 달리 구독자는 제목만 보고 걸러낼 기회 없이 본문을
+받으므로, 읽을 수 없는 언어의 글이 피드에 섞이면 노이즈가 된다.
+
 ### 3.3 글 본문 (`layouts/post/single.html`)
 
 ```
@@ -158,6 +175,17 @@ SET NX PX 한 줄에서 시작해 Redlock까지, 분산 락이 조용히 정확�
 - 본문 상단에 `title`을 h1으로 렌더하므로, 마크다운 본문은 `##`부터 시작한다.
   (기존 `redis-dist-lock` 글의 최상단 `# ...` 헤딩은 제거 필요)
 - 태그는 메타 줄에 쉼표 구분 텍스트 링크로만.
+- **번역본이 없으면**(`len .AllTranslations == 1`) 메타 줄 아래에 안내 한 줄을 둔다.
+  `--muted`, `0.875rem`, 테두리나 배경 없음.
+
+  안내 문구는 **읽을 수 없는 쪽 독자**를 향한다. 한국어 글에 붙는 문구는 영어로,
+  영어 글에 붙는 문구는 한국어로 쓴다. Hugo에서 다른 언어의 i18n 문자열을 끌어오는 깔끔한
+  방법이 없으므로, 각 언어 파일의 `translation_missing` 키에 **상대 언어 문장**을 넣는다.
+
+  | 파일 | 값 |
+  |---|---|
+  | `i18n/ko.toml` | `"This post is available in Korean only."` |
+  | `i18n/en.toml` | `"이 글은 영어로만 제공됩니다."` |
 
 ### 3.4 택소노미 (`layouts/_default/terms.html`, `list.html`)
 
@@ -201,7 +229,10 @@ SET NX PX 한 줄에서 시작해 Redlock까지, 분산 락이 조용히 정확�
 ```
 https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css
 ```
-(CDN 의존이 싫으면 woff2를 `static/fonts/`에 self-host + `@font-face` 직접 선언 — 열린 질문 참조)
+**CDN으로 확정한다.** dynamic subset은 유니코드 범위별로 쪼개져 있어 페이지에 실제로 쓰인 글자
+조각만 내려받는다. 한글은 자소 조합 수가 커서 이 이점이 특히 크다. self-host하면 저장소에
+~1.2MB가 더해지고 서브셋을 직접 관리해야 한다. 대가는 jsDelivr 의존이며, 장애나 차단 시
+`sans-serif`로 폴백되어 레이아웃은 그대로 유지된다.
 
 ### 4.2 컬러 토큰
 
@@ -483,9 +514,7 @@ content/page/archives/, content/page/search/
 
 ## 10. 열린 질문
 
-1. **Pretendard 로딩** — jsDelivr CDN(간편, 외부 의존) vs `static/fonts/` self-host(오프라인·프라이버시, 저장소 ~1MB). 기본안은 CDN.
-2. **사이트 제목 표기** — 헤더는 `chaewonkong`으로 확정. `<title>` / OG / RSS의 사이트명도 `chaewonkong`으로 통일할지, `Chae Won Kong`을 유지할지.
-3. **번역본 없는 글의 노출** — 현재 스펙은 "해당 언어 목록에만 노출". 목록에는 띄우되 본문에서 "이 글은 한국어만 있습니다" 안내를 띄우는 방식도 가능.
+없음. 초기 열린 질문 6건은 모두 §11에 결정으로 정리되었다.
 
 ---
 
@@ -499,3 +528,7 @@ content/page/archives/, content/page/search/
 | 언어 토글 | 헤더 우측 `KO / EN` 항상 노출 |
 | 테마 토글 | 헤더 우측 버튼, auto/light/dark 3상태 + localStorage |
 | 도메인 | 정식 `blog.engineerd.net`, `chaewonkong.github.io`는 301 유입 |
+| 구 URL | `static/`의 meta refresh 리다이렉트 (aliases는 다국어에서 못 씀, §5.1) |
+| Pretendard | jsDelivr CDN dynamic subset (self-host 안 함, §4.1) |
+| 사이트명 | `chaewonkong`으로 통일. `Chaewon Kong`은 RSS `managingEditor`에만 |
+| 번역본 없는 글 | 양쪽 목록에 원문으로 노출 + 본문 상단 안내 줄. RSS는 해당 언어만 (§3.2) |

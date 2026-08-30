@@ -1,4 +1,23 @@
 {{ define "main" }}
-{{- $posts := where site.RegularPages "Section" "in" site.Params.mainSections }}
-{{ partial "post-list.html" $posts }}
+{{- $sections := site.Params.mainSections }}
+{{- $posts := where site.RegularPages "Section" "in" $sections }}
+
+{{- /* 번역본이 없어 이 언어 사이트에는 존재하지 않는 글도 목록에 싣는다.
+       링크는 원문(다른 언어)으로 가며, 그 글 상단에 안내 줄이 붙는다.
+       같은 글인지는 페이지 번들 디렉터리로 판단한다 — slug와 달리
+       front matter에 없어도 언어 간 항상 동일하다. */ -}}
+{{- $seen := slice }}
+{{- range $posts }}{{ $seen = $seen | append .File.Dir }}{{ end }}
+{{- range $s := hugo.Sites }}
+  {{- if ne $s.Language.Lang site.Language.Lang }}
+    {{- range where $s.RegularPages "Section" "in" $sections }}
+      {{- if not (in $seen .File.Dir) }}
+        {{- $posts = $posts | append . }}
+        {{- $seen = $seen | append .File.Dir }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{ partial "post-list.html" (sort $posts "Date" "desc") }}
 {{ end }}
