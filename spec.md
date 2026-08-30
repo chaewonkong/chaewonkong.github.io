@@ -351,6 +351,32 @@ GitHub Pages에 커스텀 도메인이 이미 설정되어 있어, `chaewonkong.
   `absURL` / `.Permalink`를 쓴다 → 자동으로 `blog.engineerd.net` 기준이 된다.
 - `<link rel="canonical">`을 모든 페이지에 넣어, 혹시 github.io로 접근된 경우에도 정식 주소를 가리키게 한다.
 
+#### 구 URL 리다이렉트
+
+기존 라이브 사이트의 URL은 언어 접두사가 없었다 (확인: 둘 다 200이었다).
+
+| 구 URL | 새 URL |
+|---|---|
+| `/p/redis-based-distributed-lock-and-the-redlock-algorithm/` | `/en/p/redis-dist-lock/` |
+| `/about/` | `/en/about/` |
+
+원문이 영어였으므로 en 쪽으로 보낸다.
+
+**front matter `aliases`는 쓸 수 없다.** 다국어 모드에서 Hugo는 alias 경로에 언어 접두사를
+붙여버려서 `/en/p/redis-based-.../`가 생성된다 — 잡아야 할 `/p/...`가 아니다. `/about/` alias는
+`/en/about/`이 되어 자기 자신과 충돌하며 아예 생성되지 않는다.
+
+따라서 `static/`에 meta refresh 리다이렉트 HTML을 직접 둔다. GitHub Pages는 서버 리다이렉트를
+지원하지 않으므로 이것이 유일한 방법이다. 목적지는 도메인 비종속이 되도록 상대 경로로 쓰고,
+`robots: noindex`와 `canonical`을 함께 넣는다.
+
+```
+static/
+├── CNAME
+├── about/index.html
+└── p/redis-based-distributed-lock-and-the-redlock-algorithm/index.html
+```
+
 ---
 
 ## 6. 제거 대상
@@ -413,7 +439,8 @@ content/page/archives/, content/page/search/
 │   └── page/about/index.{ko,en}.md
 ├── static/
 │   ├── CNAME                  # blog.engineerd.net
-│   └── favicon.png
+│   ├── about/index.html       # 구 URL 리다이렉트 (§5.1)
+│   └── p/<old-slug>/index.html
 └── spec.md
 ```
 
@@ -458,8 +485,7 @@ content/page/archives/, content/page/search/
 
 1. **Pretendard 로딩** — jsDelivr CDN(간편, 외부 의존) vs `static/fonts/` self-host(오프라인·프라이버시, 저장소 ~1MB). 기본안은 CDN.
 2. **사이트 제목 표기** — 헤더는 `chaewonkong`으로 확정. `<title>` / OG / RSS의 사이트명도 `chaewonkong`으로 통일할지, `Chae Won Kong`을 유지할지.
-3. **기존 URL 호환** — 현재 배포된 글 URL은 `/p/redis-dist-lock/`. 새 구조에서는 `/ko/p/...`, `/en/p/...`가 된다. 구 URL용 alias를 front matter `aliases`로 남길지.
-4. **번역본 없는 글의 노출** — 현재 스펙은 "해당 언어 목록에만 노출". 목록에는 띄우되 본문에서 "이 글은 한국어만 있습니다" 안내를 띄우는 방식도 가능.
+3. **번역본 없는 글의 노출** — 현재 스펙은 "해당 언어 목록에만 노출". 목록에는 띄우되 본문에서 "이 글은 한국어만 있습니다" 안내를 띄우는 방식도 가능.
 
 ---
 
