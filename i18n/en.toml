@@ -12,3 +12,6 @@ next_post   = "Next"
 not_found         = "Page not found."
 back_home         = "Go home"
 no_translation    = "This post has not been translated yet."
+
+# 영어 글에 붙는 안내 -> 대상은 한국어 방문자이므로 한국어로 쓴다
+translation_missing = "이 글은 영어로만 제공됩니다."
