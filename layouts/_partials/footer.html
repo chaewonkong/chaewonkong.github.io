@@ -1,0 +1,34 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© {{ now.Year }} {{ site.Title }}</span>
+    <nav>
+      <a href="{{ "index.xml" | relLangURL }}">rss</a>
+      {{- with site.Params.social.github }}
+      <a href="{{ . }}" rel="me">github</a>
+      {{- end }}
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement, btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var ICON = { auto: '◐', light: '☀', dark: '☾' };
+  var NEXT = { auto: 'light', light: 'dark', dark: 'auto' };
+  function current() {
+    var t = root.dataset.theme;
+    return (t === 'light' || t === 'dark') ? t : 'auto';
+  }
+  function paint() { btn.textContent = ICON[current()]; }
+  btn.addEventListener('click', function () {
+    var next = NEXT[current()];
+    if (next === 'auto') { delete root.dataset.theme; } else { root.dataset.theme = next; }
+    try {
+      if (next === 'auto') { localStorage.removeItem('theme'); } else { localStorage.theme = next; }
+    } catch (e) {}
+    paint();
+  });
+  paint();
+})();
+</script>

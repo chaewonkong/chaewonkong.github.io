@@ -1,0 +1,19 @@
+[ko]
+    label     = "한국어"
+    locale    = "ko-KR"
+    direction = "ltr"
+    title     = "chaewonkong"
+    weight    = 1
+
+    [ko.params]
+        description = "매치메이킹과 분산 시스템에 대해 씁니다."
+
+[en]
+    label     = "English"
+    locale    = "en-US"
+    direction = "ltr"
+    title     = "chaewonkong"
+    weight    = 2
+
+    [en.params]
+        description = "Notes on matchmaking and distributed systems."

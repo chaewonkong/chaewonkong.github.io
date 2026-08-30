@@ -1,0 +1,8 @@
+<div class="post-meta">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+  {{- with .Params.tags }} ·
+  {{- range $i, $tag := . }}{{ if $i }},{{ end }}
+  <a href="{{ (printf "tags/%s/" (urlize $tag)) | relLangURL }}">{{ $tag }}</a>
+  {{- end }}
+  {{- end }}
+</div>

@@ -1,56 +1,15 @@
-# Pages placed under these sections will be shown on homepage and archive page.
+# 홈과 택소노미에 노출할 섹션
 mainSections = ["post"]
-# Output page's full content in RSS.
+
+# RSS에 본문 전체 포함
 rssFullContent = true
-favicon        = "img/favicon.png"
 
-# Accepted values: "default", "lastmod"
-# default = see https://gohugo.io/quick-reference/glossary/#default-sort-order
-# lastmod = sort by last modified date, in descending order
-SortBy              = "default"
+[author]
+    name  = "Chaewon Kong"
+    email = "chaewonkong@gmail.com"
 
-[footer]
-    since      = 2026
-    customText = ""
-
-[dateFormat]
-    published   = ":date_full"
-    lastUpdated = ":date_full"
-
-[sidebar]
-    subtitle = "An engineer who plays the violin"
-    avatar   = "img/profile.jpg"
-
-[article]
-    headingAnchor = false
-    math          = false
-    readingTime   = true
-
-    [article.license]
-        enabled = true
-        default = "Licensed under CC BY-NC-SA 4.0"
-
-[widgets]
-    homepage = []
-    page = []
-
-[opengraph.twitter]
-    site = ""
-    card = "summary_large_image"
-
-[colorScheme]
-    toggle  = true
-    default = "auto"
-
-## Comments
-[comments]
-    enabled  = true
-    provider = "utterances"
-
-    [comments.utterances]
-        repo = "https://github.com/chaewonkong/utterances"
-        issueTerm = "pathname"
-        label = ""
-
-    # See all the available configurations at https://github.com/CaiJimmy/hugo-theme-stack/blob/master/config/_default/params.toml
-    # Copy the configurations you need from there and paste it here.
+# 푸터/소개 링크
+[social]
+    github   = "https://github.com/chaewonkong"
+    linkedin = "https://www.linkedin.com/in/chaewonkong"
+    twitter  = "https://x.com/alea_iacta_ist"

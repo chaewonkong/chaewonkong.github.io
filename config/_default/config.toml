@@ -1,18 +1,24 @@
-# Change baseurl before deploy
-baseurl      = "https://blog.engineerd.net"
-languageCode = "en-us"
-title        = "Chae Won Kong"
+# 실사용 도메인은 blog.engineerd.net.
+# chaewonkong.github.io는 GitHub Pages가 이쪽으로 301 리다이렉트한다 (spec.md §5.1).
+# CI는 --baseURL로 이 값을 덮어쓴다.
+baseurl = "https://blog.engineerd.net/"
+title   = "chaewonkong"
 
-# Theme i18n support
-# See all available values at https://github.com/CaiJimmy/hugo-theme-stack/tree/master/i18n
-defaultContentLanguage = "en"
+defaultContentLanguage         = "ko"
+defaultContentLanguageInSubdir = true
+hasCJKLanguage                 = true
 
-# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
-# This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage = false
+enableRobotsTXT = true
+enableEmoji     = true
 
-# Change it to your Disqus shortname before using
-# disqusShortname = "hugo-theme-stack"
+# 홈이 곧 전체 글 목록이라 섹션 목록(/ko/post/, /ko/page/)은 중복이다.
+# 어디서도 링크하지 않으면서 sitemap에만 남으므로 아예 만들지 않는다.
+disableKinds = ["section"]
 
+# 홈/택소노미 모두 전체 나열. 페이지네이션 없음.
 [pagination]
-    pagerSize = 10
+    pagerSize = 9999
+
+[taxonomies]
+    tag      = "tags"
+    category = "categories"

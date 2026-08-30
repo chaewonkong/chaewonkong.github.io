@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chaewonkong — 디자인 시안</title>
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ==========================================================================
+   [1] SITE CSS  →  4단계에서 assets/css/main.css 로 그대로 이식
+   ========================================================================== */
+
+:root {
+  --bg:       #ffffff;
+  --fg:       #111111;
+  --muted:    #6b6b6b;
+  --border:   #e5e5e5;
+  --link:     #0b57d0;
+  --code-bg:  #eff1f5;
+
+  --w:        800px;
+  --pad:      24px;
+
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --bg:      #000000;
+    --fg:      #e6e6e6;
+    --muted:   #8a8a8a;
+    --border:  #222222;
+    --link:    #7aa2f7;
+    --code-bg: #1e1e2e;
+  }
+}
+
+html[data-theme="dark"] {
+  --bg:      #000000;
+  --fg:      #e6e6e6;
+  --muted:   #8a8a8a;
+  --border:  #222222;
+  --link:    #7aa2f7;
+  --code-bg: #1e1e2e;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.wrap {
+  max-width: var(--w);
+  margin: 0 auto;
+  /* 상하는 건드리지 않는다. 단축 속성을 쓰면 main의 padding-top을 덮어쓴다 */
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: var(--fg); }
+
+/* --- header --- */
+
+.site-header { border-bottom: 1px solid var(--border); }
+
+.site-header .wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 24px;
+  padding-bottom: 16px;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1.3125rem;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover,
+.site-nav a[aria-current="page"] { color: var(--fg); }
+
+.lang { display: inline-flex; align-items: baseline; gap: 5px; color: var(--border); }
+.lang a { color: var(--muted); }
+.lang a.on { color: var(--fg); }
+
+.theme-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--fg); }
+
+/* --- footer --- */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+}
+.site-footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 40px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { color: var(--fg); }
+.site-footer nav { display: flex; gap: 14px; }
+
+/* --- main --- */
+
+main { padding-top: 64px; }
+
+.post-list li:first-child { padding-top: 0; }
+
+/* --- home / list --- */
+
+.post-list { list-style: none; margin: 0; padding: 0; }
+.post-list li { padding: 15px 0; }
+
+.post-list time {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-title {
+  display: inline-block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--fg);
+  text-decoration: none;
+}
+.entry-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.entry-summary {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.post-list time { display: block; margin-bottom: 3px; }
+
+.list-year {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 28px 0 6px;
+}
+.list-year:first-child { margin-top: 0; }
+
+/* --- article --- */
+
+article h1 {
+  font-size: 1.6rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+
+.post-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 36px;
+}
+.post-meta a { color: var(--muted); text-decoration: none; }
+.post-meta a:hover { color: var(--fg); text-decoration: underline; }
+
+article h2 { font-size: 1.25rem; font-weight: 600; margin: 44px 0 12px; letter-spacing: -0.01em; }
+article h3 { font-size: 1.05rem; font-weight: 600; margin: 32px 0 10px; }
+
+article p { margin: 0 0 18px; }
+article ul, article ol { margin: 0 0 18px; padding-left: 1.4em; }
+article li { margin: 4px 0; }
+
+article blockquote {
+  margin: 0 0 18px;
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+  color: var(--muted);
+}
+
+article img { max-width: 100%; height: auto; display: block; }
+
+article hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+.table-wrap { overflow-x: auto; margin: 0 0 18px; }
+article table { border-collapse: collapse; font-size: 0.9rem; min-width: 100%; }
+article th, article td {
+  text-align: left;
+  padding: 7px 14px 7px 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+article th { font-weight: 600; }
+
+/* --- code --- */
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.highlight { margin: 0 0 18px; }
+
+.highlight pre.chroma,
+pre.chroma {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+/* --- taxonomy --- */
+
+.term-list { list-style: none; margin: 0; padding: 0; }
+.term-list li { padding: 4px 0; }
+.term-list a { color: var(--fg); text-decoration: none; }
+.term-list a:hover { text-decoration: underline; }
+.term-list .count { color: var(--muted); font-size: 0.85rem; }
+
+/* --- 404 --- */
+
+.notfound { padding: 40px 0 80px; color: var(--muted); }
+
+/* --- mobile --- */
+
+@media (max-width: 640px) {
+  :root { --pad: 16px; }
+
+  .site-header .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 18px;
+  }
+
+  .site-nav { gap: 14px; width: 100%; }
+  .site-nav .theme-toggle { margin-left: auto; }
+
+  main { padding-top: 44px; }
+
+  .post-list li { padding: 13px 0; }
+  .entry-title { font-size: 1.0625rem; }
+
+  article h1 { font-size: 1.4rem; }
+  article h2 { font-size: 1.15rem; margin-top: 36px; }
+
+  .site-footer .wrap { flex-direction: column; gap: 8px; }
+}
+
+/* ==========================================================================
+   [2] CHROMA — scripts/gen-chroma.sh 생성물 (catppuccin latte / mocha)
+   ========================================================================== */
+/* generated by scripts/gen-chroma.sh - do not edit */
+/* light: catppuccin-latte */
+.bg { color:#4c4f69;background-color:#eff1f5 }
+.chroma { color:#4c4f69;background-color:#eff1f5;-webkit-text-size-adjust:none }
+.chroma .x { color:#4c4f69 }
+.chroma .err { color:#d20f39 }
+.chroma .cl { color:#4c4f69 }
+.chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+.chroma .lntd { vertical-align:top;padding:0;margin:0;border:0 }
+.chroma .lntable { border-spacing:0;padding:0;margin:0;border:0 }
+.chroma .hl { background-color:#bcc0cc }
+.chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#8c8fa1 }
+.chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#8c8fa1 }
+.chroma .line { display:flex }
+.chroma .k { color:#8839ef }
+.chroma .kc { color:#fe640b }
+.chroma .kd { color:#d20f39 }
+.chroma .kn { color:#179299 }
+.chroma .kp { color:#8839ef }
+.chroma .kr { color:#8839ef }
+.chroma .kt { color:#d20f39 }
+.chroma .na { color:#1e66f5 }
+.chroma .nc { color:#df8e1d }
+.chroma .no { color:#df8e1d }
+.chroma .nd { color:#1e66f5;font-weight:bold }
+.chroma .ni { color:#179299 }
+.chroma .ne { color:#fe640b }
+.chroma .nl { color:#04a5e5 }
+.chroma .nn { color:#fe640b }
+.chroma .nx { color:#4c4f69 }
+.chroma .py { color:#fe640b }
+.chroma .nt { color:#8839ef }
+.chroma .nb { color:#04a5e5 }
+.chroma .bp { color:#04a5e5 }
+.chroma .nv { color:#dc8a78 }
+.chroma .vc { color:#dc8a78 }
+.chroma .vg { color:#dc8a78 }
+.chroma .vi { color:#dc8a78 }
+.chroma .vm { color:#dc8a78 }
+.chroma .nf { color:#1e66f5 }
+.chroma .fm { color:#1e66f5 }
+.chroma .ld { color:#4c4f69 }
+.chroma .s { color:#40a02b }
+.chroma .sa { color:#d20f39 }
+.chroma .sb { color:#40a02b }
+.chroma .sc { color:#40a02b }
+.chroma .dl { color:#1e66f5 }
+.chroma .sd { color:#9ca0b0 }
+.chroma .s2 { color:#40a02b }
+.chroma .se { color:#1e66f5 }
+.chroma .sh { color:#9ca0b0 }
+.chroma .si { color:#40a02b }
+.chroma .sx { color:#40a02b }
+.chroma .sr { color:#179299 }
+.chroma .s1 { color:#40a02b }
+.chroma .ss { color:#40a02b }
+.chroma .m { color:#fe640b }
+.chroma .mb { color:#fe640b }
+.chroma .mf { color:#fe640b }
+.chroma .mh { color:#fe640b }
+.chroma .mi { color:#fe640b }
+.chroma .il { color:#fe640b }
+.chroma .mo { color:#fe640b }
+.chroma .o { color:#04a5e5;font-weight:bold }
+.chroma .ow { color:#04a5e5;font-weight:bold }
+.chroma .or { color:#04a5e5;font-weight:bold }
+.chroma .c { color:#9ca0b0;font-style:italic }
+.chroma .ch { color:#acb0be;font-style:italic }
+.chroma .cm { color:#9ca0b0;font-style:italic }
+.chroma .c1 { color:#9ca0b0;font-style:italic }
+.chroma .cs { color:#9ca0b0;font-style:italic }
+.chroma .cp { color:#9ca0b0;font-style:italic }
+.chroma .cpf { color:#9ca0b0;font-weight:bold;font-style:italic }
+.chroma .gd { color:#d20f39;background-color:#ccd0da }
+.chroma .ge { font-style:italic }
+.chroma .gr { color:#d20f39 }
+.chroma .gh { color:#fe640b;font-weight:bold }
+.chroma .gi { color:#40a02b;background-color:#ccd0da }
+.chroma .go { color:#4c4f69 }
+.chroma .gp { color:#4c4f69 }
+.chroma .gs { font-weight:bold }
+.chroma .gu { color:#fe640b;font-weight:bold }
+.chroma .gt { color:#d20f39 }
+.chroma .gl { text-decoration:underline }
+
+/* dark: catppuccin-mocha - OS preference (manual light wins) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .bg { color:#cdd6f4;background-color:#1e1e2e }
+  html:not([data-theme="light"]) .chroma { color:#cdd6f4;background-color:#1e1e2e;-webkit-text-size-adjust:none }
+  html:not([data-theme="light"]) .chroma .x { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .err { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .cl { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+  html:not([data-theme="light"]) .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0 }
+  html:not([data-theme="light"]) .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0 }
+  html:not([data-theme="light"]) .chroma .hl { background-color:#45475a }
+  html:not([data-theme="light"]) .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c }
+  html:not([data-theme="light"]) .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c }
+  html:not([data-theme="light"]) .chroma .line { display:flex }
+  html:not([data-theme="light"]) .chroma .k { color:#cba6f7 }
+  html:not([data-theme="light"]) .chroma .kc { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .kd { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .kn { color:#94e2d5 }
+  html:not([data-theme="light"]) .chroma .kp { color:#cba6f7 }
+  html:not([data-theme="light"]) .chroma .kr { color:#cba6f7 }
+  html:not([data-theme="light"]) .chroma .kt { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .na { color:#89b4fa }
+  html:not([data-theme="light"]) .chroma .nc { color:#f9e2af }
+  html:not([data-theme="light"]) .chroma .no { color:#f9e2af }
+  html:not([data-theme="light"]) .chroma .nd { color:#89b4fa;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .ni { color:#94e2d5 }
+  html:not([data-theme="light"]) .chroma .ne { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .nl { color:#89dceb }
+  html:not([data-theme="light"]) .chroma .nn { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .nx { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .py { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .nt { color:#cba6f7 }
+  html:not([data-theme="light"]) .chroma .nb { color:#89dceb }
+  html:not([data-theme="light"]) .chroma .bp { color:#89dceb }
+  html:not([data-theme="light"]) .chroma .nv { color:#f5e0dc }
+  html:not([data-theme="light"]) .chroma .vc { color:#f5e0dc }
+  html:not([data-theme="light"]) .chroma .vg { color:#f5e0dc }
+  html:not([data-theme="light"]) .chroma .vi { color:#f5e0dc }
+  html:not([data-theme="light"]) .chroma .vm { color:#f5e0dc }
+  html:not([data-theme="light"]) .chroma .nf { color:#89b4fa }
+  html:not([data-theme="light"]) .chroma .fm { color:#89b4fa }
+  html:not([data-theme="light"]) .chroma .ld { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .s { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .sa { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .sb { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .sc { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .dl { color:#89b4fa }
+  html:not([data-theme="light"]) .chroma .sd { color:#6c7086 }
+  html:not([data-theme="light"]) .chroma .s2 { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .se { color:#89b4fa }
+  html:not([data-theme="light"]) .chroma .sh { color:#6c7086 }
+  html:not([data-theme="light"]) .chroma .si { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .sx { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .sr { color:#94e2d5 }
+  html:not([data-theme="light"]) .chroma .s1 { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .ss { color:#a6e3a1 }
+  html:not([data-theme="light"]) .chroma .m { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .mb { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .mf { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .mh { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .mi { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .il { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .mo { color:#fab387 }
+  html:not([data-theme="light"]) .chroma .o { color:#89dceb;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .ow { color:#89dceb;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .or { color:#89dceb;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .c { color:#6c7086;font-style:italic }
+  html:not([data-theme="light"]) .chroma .ch { color:#585b70;font-style:italic }
+  html:not([data-theme="light"]) .chroma .cm { color:#6c7086;font-style:italic }
+  html:not([data-theme="light"]) .chroma .c1 { color:#6c7086;font-style:italic }
+  html:not([data-theme="light"]) .chroma .cs { color:#6c7086;font-style:italic }
+  html:not([data-theme="light"]) .chroma .cp { color:#6c7086;font-style:italic }
+  html:not([data-theme="light"]) .chroma .cpf { color:#6c7086;font-weight:bold;font-style:italic }
+  html:not([data-theme="light"]) .chroma .gd { color:#f38ba8;background-color:#313244 }
+  html:not([data-theme="light"]) .chroma .ge { font-style:italic }
+  html:not([data-theme="light"]) .chroma .gr { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .gh { color:#fab387;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .gi { color:#a6e3a1;background-color:#313244 }
+  html:not([data-theme="light"]) .chroma .go { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .gp { color:#cdd6f4 }
+  html:not([data-theme="light"]) .chroma .gs { font-weight:bold }
+  html:not([data-theme="light"]) .chroma .gu { color:#fab387;font-weight:bold }
+  html:not([data-theme="light"]) .chroma .gt { color:#f38ba8 }
+  html:not([data-theme="light"]) .chroma .gl { text-decoration:underline }
+}
+
+/* dark: catppuccin-mocha - manual selection (beats OS light) */
+html[data-theme="dark"] .bg { color:#cdd6f4;background-color:#1e1e2e }
+html[data-theme="dark"] .chroma { color:#cdd6f4;background-color:#1e1e2e;-webkit-text-size-adjust:none }
+html[data-theme="dark"] .chroma .x { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .err { color:#f38ba8 }
+html[data-theme="dark"] .chroma .cl { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+html[data-theme="dark"] .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0 }
+html[data-theme="dark"] .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0 }
+html[data-theme="dark"] .chroma .hl { background-color:#45475a }
+html[data-theme="dark"] .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c }
+html[data-theme="dark"] .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c }
+html[data-theme="dark"] .chroma .line { display:flex }
+html[data-theme="dark"] .chroma .k { color:#cba6f7 }
+html[data-theme="dark"] .chroma .kc { color:#fab387 }
+html[data-theme="dark"] .chroma .kd { color:#f38ba8 }
+html[data-theme="dark"] .chroma .kn { color:#94e2d5 }
+html[data-theme="dark"] .chroma .kp { color:#cba6f7 }
+html[data-theme="dark"] .chroma .kr { color:#cba6f7 }
+html[data-theme="dark"] .chroma .kt { color:#f38ba8 }
+html[data-theme="dark"] .chroma .na { color:#89b4fa }
+html[data-theme="dark"] .chroma .nc { color:#f9e2af }
+html[data-theme="dark"] .chroma .no { color:#f9e2af }
+html[data-theme="dark"] .chroma .nd { color:#89b4fa;font-weight:bold }
+html[data-theme="dark"] .chroma .ni { color:#94e2d5 }
+html[data-theme="dark"] .chroma .ne { color:#fab387 }
+html[data-theme="dark"] .chroma .nl { color:#89dceb }
+html[data-theme="dark"] .chroma .nn { color:#fab387 }
+html[data-theme="dark"] .chroma .nx { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .py { color:#fab387 }
+html[data-theme="dark"] .chroma .nt { color:#cba6f7 }
+html[data-theme="dark"] .chroma .nb { color:#89dceb }
+html[data-theme="dark"] .chroma .bp { color:#89dceb }
+html[data-theme="dark"] .chroma .nv { color:#f5e0dc }
+html[data-theme="dark"] .chroma .vc { color:#f5e0dc }
+html[data-theme="dark"] .chroma .vg { color:#f5e0dc }
+html[data-theme="dark"] .chroma .vi { color:#f5e0dc }
+html[data-theme="dark"] .chroma .vm { color:#f5e0dc }
+html[data-theme="dark"] .chroma .nf { color:#89b4fa }
+html[data-theme="dark"] .chroma .fm { color:#89b4fa }
+html[data-theme="dark"] .chroma .ld { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .s { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .sa { color:#f38ba8 }
+html[data-theme="dark"] .chroma .sb { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .sc { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .dl { color:#89b4fa }
+html[data-theme="dark"] .chroma .sd { color:#6c7086 }
+html[data-theme="dark"] .chroma .s2 { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .se { color:#89b4fa }
+html[data-theme="dark"] .chroma .sh { color:#6c7086 }
+html[data-theme="dark"] .chroma .si { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .sx { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .sr { color:#94e2d5 }
+html[data-theme="dark"] .chroma .s1 { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .ss { color:#a6e3a1 }
+html[data-theme="dark"] .chroma .m { color:#fab387 }
+html[data-theme="dark"] .chroma .mb { color:#fab387 }
+html[data-theme="dark"] .chroma .mf { color:#fab387 }
+html[data-theme="dark"] .chroma .mh { color:#fab387 }
+html[data-theme="dark"] .chroma .mi { color:#fab387 }
+html[data-theme="dark"] .chroma .il { color:#fab387 }
+html[data-theme="dark"] .chroma .mo { color:#fab387 }
+html[data-theme="dark"] .chroma .o { color:#89dceb;font-weight:bold }
+html[data-theme="dark"] .chroma .ow { color:#89dceb;font-weight:bold }
+html[data-theme="dark"] .chroma .or { color:#89dceb;font-weight:bold }
+html[data-theme="dark"] .chroma .c { color:#6c7086;font-style:italic }
+html[data-theme="dark"] .chroma .ch { color:#585b70;font-style:italic }
+html[data-theme="dark"] .chroma .cm { color:#6c7086;font-style:italic }
+html[data-theme="dark"] .chroma .c1 { color:#6c7086;font-style:italic }
+html[data-theme="dark"] .chroma .cs { color:#6c7086;font-style:italic }
+html[data-theme="dark"] .chroma .cp { color:#6c7086;font-style:italic }
+html[data-theme="dark"] .chroma .cpf { color:#6c7086;font-weight:bold;font-style:italic }
+html[data-theme="dark"] .chroma .gd { color:#f38ba8;background-color:#313244 }
+html[data-theme="dark"] .chroma .ge { font-style:italic }
+html[data-theme="dark"] .chroma .gr { color:#f38ba8 }
+html[data-theme="dark"] .chroma .gh { color:#fab387;font-weight:bold }
+html[data-theme="dark"] .chroma .gi { color:#a6e3a1;background-color:#313244 }
+html[data-theme="dark"] .chroma .go { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .gp { color:#cdd6f4 }
+html[data-theme="dark"] .chroma .gs { font-weight:bold }
+html[data-theme="dark"] .chroma .gu { color:#fab387;font-weight:bold }
+html[data-theme="dark"] .chroma .gt { color:#f38ba8 }
+html[data-theme="dark"] .chroma .gl { text-decoration:underline }
+
+/* ==========================================================================
+   [3] MOCKUP ONLY — 실제 사이트에는 들어가지 않음
+   ========================================================================== */
+
+#mockbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+#mockbar .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+#mockbar .tag { margin-right: 8px; opacity: 0.7; }
+#mockbar button {
+  font: inherit;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 9px;
+  cursor: pointer;
+}
+#mockbar button:hover { color: var(--fg); }
+#mockbar button[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }
+#mockbar .spacer { flex: 1; }
+
+#mobileview { padding: 28px 0 60px; text-align: center; }
+#mobileview iframe {
+  width: 375px;
+  height: 720px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+#mobileview p { color: var(--muted); font-size: 0.78rem; margin: 10px 0 0; }
+
+body.bare #mockbar { display: none; }
+[hidden] { display: none !important; }
+</style>
+<!-- FOUC 방지: 반드시 인라인 + 동기. 4단계에서 baseof.html의 </head> 직전에 동일하게 삽입 -->
+<script>try{var t=localStorage.theme;if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+
+<div id="mockbar">
+  <div class="wrap">
+    <span class="tag">시안</span>
+    <button data-screen="home" aria-pressed="true">홈</button>
+    <button data-screen="post">글</button>
+    <button data-screen="about">소개</button>
+    <button data-screen="tags">태그</button>
+    <button data-screen="e404">404</button>
+    <span class="spacer"></span>
+    <button id="mobilebtn" aria-pressed="false">375px</button>
+  </div>
+</div>
+
+<div id="site">
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#">chaewonkong</a>
+    <nav class="site-nav">
+      <a href="#" data-nav="posts">posts</a>
+      <a href="#" data-nav="about">about</a>
+      <span class="lang"><a href="#" class="on" data-lang="ko">KO</a>|<a href="#" data-lang="en">EN</a></span>
+      <button class="theme-toggle" id="tt" type="button" title="테마 전환" aria-label="테마 전환">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= 홈 ================= -->
+<section data-screen="home">
+  <ul class="post-list" data-lang="ko">
+    <li>
+      <time>30 Aug 2026</time>
+      <a class="entry-title" href="#">Redis 기반 분산 락과 Redlock 알고리즘</a>
+      <p class="entry-summary">SET NX PX 한 줄에서 시작해 Redlock까지, 분산 락이 조용히 정확성을 잃는 지점들.</p>
+    </li>
+    <li>
+      <time>12 Jul 2026</time>
+      <a class="entry-title" href="#">매치메이킹 큐를 다시 설계하며 배운 것들</a>
+      <p class="entry-summary">대기 시간과 매칭 품질은 같은 노브의 양 끝이다. 세 번의 리라이트에서 남은 기록.</p>
+    </li>
+    <li>
+      <time>28 Jun 2026</time>
+      <a class="entry-title" href="#">TimescaleDB에서 ClickHouse로: PoC부터 마이그레이션까지</a>
+      <p class="entry-summary">PoC 설계, TCO 분석, 팀 설득, 그리고 5~17배의 쿼리 성능 개선.</p>
+    </li>
+    <li>
+      <time>03 Jun 2026</time>
+      <a class="entry-title" href="#">Backfill 시뮬레이션을 60분에서 100초로 줄인 방법</a>
+      <p class="entry-summary">가속 로그 리플레이로 검증 루프를 36배 당긴 과정과 그 대가.</p>
+    </li>
+    <li>
+      <time>19 May 2026</time>
+      <a class="entry-title" href="#">Go 스케줄러가 매칭 지연에 미치는 영향</a>
+      <p class="entry-summary">GOMAXPROCS와 고루틴 폭증이 p99 지연에 남기는 흔적을 추적했다.</p>
+    </li>
+    <li>
+      <time>02 May 2026</time>
+      <a class="entry-title" href="#">Fairness and Latency: Two Knobs You Cannot Turn at Once</a>
+      <p class="entry-summary">결국 모든 매치메이커는 '공정하다'가 무엇인지에 대한 논쟁이 된다.</p>
+    </li>
+    <li>
+      <time>14 Apr 2026</time>
+      <a class="entry-title" href="#">k3s 홈랩에 LGTM 스택 올리기</a>
+      <p class="entry-summary">미니PC 두 대로 Loki, Grafana, Tempo, Mimir를 굴리며 마주친 제약들.</p>
+    </li>
+    <li>
+      <time>27 Mar 2026</time>
+      <a class="entry-title" href="#">Redis Cluster에서 Lua 스크립트를 쓸 때 주의할 점</a>
+      <p class="entry-summary">키 슬롯, CROSSSLOT 에러, 그리고 원자성이 깨지는 경계.</p>
+    </li>
+    <li>
+      <time>08 Mar 2026</time>
+      <a class="entry-title" href="#">gRPC를 처음 도입하며 마주친 것들</a>
+      <p class="entry-summary">REST에 익숙한 팀이 스트리밍과 코드 생성에 적응하는 동안 생긴 일들.</p>
+    </li>
+    <li>
+      <time>21 Feb 2026</time>
+      <a class="entry-title" href="#">분산 시스템에서의 시간</a>
+      <p class="entry-summary">벽시계, 단조 시계, 논리적 시계. 무엇을 믿고 무엇을 믿지 말아야 하는가.</p>
+    </li>
+  </ul>
+  <ul class="post-list" data-lang="en" hidden>
+    <li>
+      <time>30 Aug 2026</time>
+      <a class="entry-title" href="#">Redis-Based Distributed Locks and the Redlock Algorithm</a>
+      <p class="entry-summary">From a single SET NX PX to Redlock, and where distributed locks quietly lose correctness.</p>
+    </li>
+    <li>
+      <time>12 Jul 2026</time>
+      <a class="entry-title" href="#">What I Learned Redesigning a Matchmaking Queue</a>
+      <p class="entry-summary">Wait time and match quality are two ends of the same knob. Notes from three rewrites.</p>
+    </li>
+    <li>
+      <time>28 Jun 2026</time>
+      <a class="entry-title" href="#">From TimescaleDB to ClickHouse: PoC to Migration</a>
+      <p class="entry-summary">Designing the PoC, running the TCO analysis, convincing the team, landing a 5–17x speedup.</p>
+    </li>
+    <li>
+      <time>03 Jun 2026</time>
+      <a class="entry-title" href="#">Cutting Backfill Simulation from 60 Minutes to 100 Seconds</a>
+      <p class="entry-summary">Accelerated log replay, a 36x tighter loop, and what it cost us.</p>
+    </li>
+    <li>
+      <time>19 May 2026</time>
+      <a class="entry-title" href="#">How the Go Scheduler Shapes Matching Latency</a>
+      <p class="entry-summary">Tracing what GOMAXPROCS and goroutine bursts leave behind in p99.</p>
+    </li>
+    <li>
+      <time>02 May 2026</time>
+      <a class="entry-title" href="#">Fairness and Latency: Two Knobs You Cannot Turn at Once</a>
+      <p class="entry-summary">Every matchmaker eventually becomes an argument about what “fair” means.</p>
+    </li>
+    <li>
+      <time>14 Apr 2026</time>
+      <a class="entry-title" href="#">Running the LGTM Stack on a k3s Homelab</a>
+      <p class="entry-summary">Loki, Grafana, Tempo and Mimir on two mini PCs, and the constraints that showed up.</p>
+    </li>
+    <li>
+      <time>27 Mar 2026</time>
+      <a class="entry-title" href="#">Lua Scripts on Redis Cluster: What to Watch For</a>
+      <p class="entry-summary">Key slots, CROSSSLOT errors, and the boundary where atomicity breaks.</p>
+    </li>
+    <li>
+      <time>08 Mar 2026</time>
+      <a class="entry-title" href="#">First Contact with gRPC</a>
+      <p class="entry-summary">What happens while a REST-native team adapts to streaming and code generation.</p>
+    </li>
+    <li>
+      <time>21 Feb 2026</time>
+      <a class="entry-title" href="#">Time in Distributed Systems</a>
+      <p class="entry-summary">Wall clocks, monotonic clocks, logical clocks: what to trust and what to ignore.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ================= 글 ================= -->
+<section data-screen="post" hidden>
+<article>
+  <h1 data-en="Redis-Based Distributed Locks and the Redlock Algorithm">Redis 기반 분산 락과 Redlock 알고리즘</h1>
+  <div class="post-meta">
+    30 Aug 2026 · <a href="#">redis</a>, <a href="#">go</a>, <a href="#">distributed-systems</a>
+  </div>
+
+  <p>여러 프로세스가 하나의 자원을 동시에 수정할 때, 우리는 상호 배제를 필요로 한다. 단일 프로세스라면 뮤텍스로 끝날 문제지만, 프로세스가 여러 노드에 흩어져 있다면 이야기가 달라진다. <code>SET NX PX</code> 한 줄로 시작해서, 왜 그것만으로는 부족한지까지 살펴본다.</p>
+
+  <h2>가장 단순한 구현</h2>
+
+  <p>Redis의 <code>SET key value NX PX ttl</code>은 원자적이다. 키가 없을 때만 값을 쓰고, 동시에 만료 시간을 건다. 이 두 연산이 원자적이라는 점이 핵심이다.</p>
+
+  <div class="highlight"><pre class="chroma"><code><span class="line"><span class="cl"><span class="c1">// Lock은 SET NX PX로 분산 락을 획득한다. 해제용 토큰을 반환한다.</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Locker</span><span class="p">)</span> <span class="nf">Lock</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">key</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">ttl</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">token</span> <span class="o">:=</span> <span class="nx">uuid</span><span class="p">.</span><span class="nf">NewString</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ok</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nx">rdb</span><span class="p">.</span><span class="nf">SetNX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">token</span><span class="p">,</span> <span class="nx">ttl</span><span class="p">).</span><span class="nf">Result</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;acquire lock %q: %w&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">ErrNotAcquired</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">token</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+
+  <p>해제할 때가 더 까다롭다. <code>DEL</code>을 그냥 호출하면, 이미 만료된 뒤 다른 클라이언트가 잡은 락을 지워버릴 수 있다. 토큰을 비교한 뒤 지워야 하고, 그 비교와 삭제는 원자적이어야 한다.</p>
+
+  <blockquote>
+    <p>TTL은 락의 안전장치이자 동시에 정확성의 구멍이다. 작업이 TTL보다 오래 걸리는 순간, 두 클라이언트가 같은 락을 들고 있다고 믿게 된다.</p>
+  </blockquote>
+
+  <h3>왜 Lua가 필요한가</h3>
+
+  <p>Redis는 Lua 스크립트를 원자적으로 실행한다. GET과 DEL 사이에 다른 명령이 끼어들 수 없다는 뜻이다.</p>
+
+  <div class="highlight"><pre class="chroma"><code><span class="line"><span class="cl"><span class="k">if</span> <span class="nb">redis</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="n">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="n">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">redis</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&#34;DEL&#34;</span><span class="p">,</span> <span class="n">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span></span></span></code></pre></div>
+
+  <h2>Redlock은 무엇을 더 주는가</h2>
+
+  <p>단일 Redis 인스턴스는 그 자체가 단일 장애점이다. Redlock은 독립적인 N개 노드에 락을 걸고, 과반이 성공하면 획득으로 간주한다.</p>
+
+  <ul>
+    <li>N개 노드 중 <strong>(N/2)+1</strong> 이상에서 성공해야 한다</li>
+    <li>획득에 쓴 시간이 TTL보다 짧아야 유효하다</li>
+    <li>실패하면 획득한 노드 전부에서 즉시 해제한다</li>
+  </ul>
+
+  <p>설정은 다음과 같이 둔다.</p>
+
+  <div class="highlight"><pre class="chroma"><code><span class="line"><span class="cl"><span class="p">[</span><span class="nx">redlock</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">nodes</span>       <span class="o">=</span> <span class="p">[</span><span class="s">&#34;10.0.1.11:6379&#34;</span><span class="p">,</span> <span class="s">&#34;10.0.1.12:6379&#34;</span><span class="p">,</span> <span class="s">&#34;10.0.1.13:6379&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ttl</span>         <span class="o">=</span> <span class="s">&#34;10s&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">retry_delay</span> <span class="o">=</span> <span class="s">&#34;200ms&#34;</span></span></span></code></pre></div>
+
+  <h2>비교</h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>방식</th><th>안전성</th><th>지연</th><th>운영 비용</th></tr></thead>
+    <tbody>
+      <tr><td>단일 Redis + SET NX</td><td>낮음</td><td>가장 낮음</td><td>낮음</td></tr>
+      <tr><td>Redlock (N=5)</td><td>중간</td><td>중간</td><td>높음</td></tr>
+      <tr><td>etcd / ZooKeeper</td><td>높음</td><td>높음</td><td>중간</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>결론부터 말하면, 정확성이 돈과 직결되는 작업에는 Redis 락을 쓰지 않는 편이 낫다. 자세한 논의는 <a href="#">Martin Kleppmann의 글</a>과 그에 대한 antirez의 반박을 함께 읽어보길 권한다.</p>
+
+  <hr>
+  <p class="post-meta" style="margin:0">← <a href="#">매치메이킹 큐를 다시 설계하며 배운 것들</a></p>
+</article>
+</section>
+
+<!-- ================= 소개 ================= -->
+<section data-screen="about" hidden>
+<article>
+  <h1>About</h1>
+  <div class="post-meta">
+    <a href="#">chaewonkong@gmail.com</a> · <a href="#">github</a> · <a href="#">linkedin</a>
+  </div>
+
+  <p>넥슨 코리아에서 매치메이킹 서비스를 만드는 백엔드 엔지니어입니다. Go와 분산 시스템, 그리고 "공정하면서도 빠른 매칭"이라는 풀리지 않는 문제에 관심이 있습니다.</p>
+
+  <h2>Experience</h2>
+
+  <h3>Nexon Korea — Backend Engineer <span style="color:var(--muted);font-weight:400">2022.07 – 현재</span></h3>
+  <ul>
+    <li>외부 스튜디오가 독립적으로 연동 가능한 스탠드얼론 매치메이킹 서비스를 설계·구축</li>
+    <li>PostgreSQL/Timescale → ClickHouse 마이그레이션으로 쿼리 성능 <strong>5–17배</strong> 개선</li>
+    <li>Backfill 로그 리플레이 시뮬레이션으로 검증 시간을 60분 → <strong>100초</strong>로 단축</li>
+  </ul>
+
+  <h3>Banksalad — Frontend Engineer <span style="color:var(--muted);font-weight:400">2020 – 2022</span></h3>
+
+  <h2>Skills</h2>
+  <p><code>Go</code> <code>Redis</code> <code>Kubernetes</code> <code>ClickHouse</code> <code>PostgreSQL</code> <code>LGTM</code></p>
+</article>
+</section>
+
+<!-- ================= 태그 ================= -->
+<section data-screen="tags" hidden>
+<article>
+  <h1>Tags</h1>
+  <div class="post-meta">전체 8개</div>
+  <ul class="term-list">
+    <li><a href="#">distributed-systems</a> <span class="count">6</span></li>
+    <li><a href="#">go</a> <span class="count">5</span></li>
+    <li><a href="#">redis</a> <span class="count">4</span></li>
+    <li><a href="#">matchmaking</a> <span class="count">3</span></li>
+    <li><a href="#">clickhouse</a> <span class="count">2</span></li>
+    <li><a href="#">kubernetes</a> <span class="count">2</span></li>
+    <li><a href="#">postgresql</a> <span class="count">1</span></li>
+    <li><a href="#">grpc</a> <span class="count">1</span></li>
+  </ul>
+</article>
+</section>
+
+<!-- ================= 404 ================= -->
+<section data-screen="e404" hidden>
+  <div class="notfound">
+    <p>페이지를 찾을 수 없습니다.</p>
+    <p><a href="#">홈으로</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 chaewonkong</span>
+    <nav>
+      <a href="#">rss</a>
+      <a href="#">github</a>
+    </nav>
+  </div>
+</footer>
+
+</div><!-- /#site -->
+
+<div id="mobileview" hidden>
+  <iframe id="mobileframe" title="375px 미리보기"></iframe>
+  <p>실제 뷰포트 375px — 미디어 쿼리가 그대로 적용됩니다</p>
+</div>
+
+<script>
+// ---- 테마 토글: 4단계에서 그대로 사용 (auto → light → dark → auto) ----
+(function () {
+  var root = document.documentElement, btn = document.getElementById('tt');
+  var ICON = { auto: '◐', light: '☀', dark: '☾' };
+  function current() {
+    var t = root.dataset.theme;
+    return (t === 'light' || t === 'dark') ? t : 'auto';
+  }
+  function paint() { btn.textContent = ICON[current()]; }
+  btn.addEventListener('click', function () {
+    var next = { auto: 'light', light: 'dark', dark: 'auto' }[current()];
+    if (next === 'auto') { delete root.dataset.theme; } else { root.dataset.theme = next; }
+    try {
+      if (next === 'auto') { localStorage.removeItem('theme'); } else { localStorage.theme = next; }
+    } catch (e) {}
+    paint();
+  });
+  paint();
+})();
+
+// ---- 아래는 시안 전용 ----
+(function () {
+  var params = new URLSearchParams(location.search);
+  var bare = params.has('bare');
+  if (bare) document.body.classList.add('bare');
+
+  function show(name) {
+    document.querySelectorAll('#site section[data-screen]').forEach(function (s) {
+      s.hidden = s.dataset.screen !== name;
+    });
+    document.querySelectorAll('#mockbar button[data-screen]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.screen === name));
+    });
+    document.querySelectorAll('.site-nav a[data-nav]').forEach(function (a) {
+      var on = (a.dataset.nav === 'about' && name === 'about') ||
+               (a.dataset.nav === 'posts' && name === 'home');
+      if (on) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); }
+    });
+    var f = document.getElementById('mobileframe');
+    if (f && f.dataset.on) f.src = location.pathname + '?bare=1&screen=' + name;
+    current = name;
+  }
+
+  var current = params.get('screen') || 'home';
+  show(current);
+
+  document.querySelectorAll('#mockbar button[data-screen]').forEach(function (b) {
+    b.addEventListener('click', function () { show(b.dataset.screen); });
+  });
+
+  document.querySelectorAll('.site-nav a[data-nav], .brand').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      show(a.dataset.nav === 'about' ? 'about' : 'home');
+    });
+  });
+
+  // 언어 토글 (시안 전용 - 실제로는 6단계에서 .Translations 기반 링크로 대체)
+  document.querySelectorAll('.lang a[data-lang]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var lang = a.dataset.lang;
+      document.querySelectorAll('.lang a[data-lang]').forEach(function (x) {
+        x.classList.toggle('on', x.dataset.lang === lang);
+      });
+      document.querySelectorAll('.post-list[data-lang]').forEach(function (u) {
+        u.hidden = u.dataset.lang !== lang;
+      });
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (!el.dataset.ko) el.dataset.ko = el.textContent;
+        el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ko;
+      });
+      document.documentElement.lang = lang;
+    });
+  });
+
+  var mb = document.getElementById('mobilebtn'), mv = document.getElementById('mobileview'),
+      site = document.getElementById('site'), frame = document.getElementById('mobileframe');
+  mb.addEventListener('click', function () {
+    var on = mb.getAttribute('aria-pressed') !== 'true';
+    mb.setAttribute('aria-pressed', String(on));
+    mv.hidden = !on;
+    site.hidden = on;
+    if (on) { frame.dataset.on = '1'; frame.src = location.pathname + '?bare=1&screen=' + current; }
+    else { delete frame.dataset.on; frame.removeAttribute('src'); }
+  });
+})();
+</script>
+</body>
+</html>
