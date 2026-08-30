@@ -7,50 +7,59 @@ Hugo로 만들었고, 테마는 외부 의존성 없이 이 저장소가 직접 
 ## 요구사항
 
 Hugo **extended** 0.164.0 이상. 그 외 의존성은 없다 (Go, Node.js, Dart Sass 모두 불필요).
+[just](https://github.com/casey/just)는 있으면 편하지만 없어도 된다.
 
 ```sh
-brew install hugo
+brew install hugo just
 ```
 
-## 개발
+## 명령
 
 ```sh
-hugo server            # http://localhost:1313
-hugo server -D         # 초안 포함
+just              # 레시피 목록
+just new <slug>   # 새 글 (ko/en 두 벌 생성)
+just serve        # 개발 서버, 초안 포함 (http://localhost:1313)
+just build        # 프로덕션과 동일한 빌드
+just chroma       # 코드 하이라이팅 CSS 재생성
+just clean        # 빌드 산출물 제거
 ```
 
 ## 글쓰기
 
-글은 페이지 번들이며, 한국어와 영어 두 벌을 같은 디렉터리에 둔다.
+```sh
+just new redis-cluster-lua
+```
+
+`archetypes/post/`를 복사해 페이지 번들을 만든다. `slug`와 `date`는 채워져 나온다.
 
 ```
-content/post/<slug>/
+content/post/redis-cluster-lua/
 ├── index.ko.md
 ├── index.en.md
-└── cover.png          # 언어 공용 리소스
+└── cover.png          # 언어 공용 리소스 (필요하면)
 ```
 
 ```yaml
 ---
-title: "제목"
-slug: "url-slug"       # 두 언어가 동일해야 언어 토글이 이어진다
-date: 2026-08-30T10:00:00+09:00
-description: "홈 목록에 요약으로 노출된다."
-tags: [go, redis]
-categories: [backend]
+title: "제목"                          # 직접 채운다
+slug: "redis-cluster-lua"              # 자동. 두 언어가 같아야 언어 토글이 이어진다
+date: 2026-08-30T18:24:33+09:00        # 자동, 명령 실행 시각
+lastmod: 2026-08-30T18:24:33+09:00
+description: ""                        # 홈 목록의 요약으로 쓰인다
+tags: []
+categories: []
+draft: true                            # 발행할 때 지운다
 ---
 ```
 
 - 본문은 `##`부터 시작한다. `title`은 레이아웃이 h1으로 그린다.
-- 한쪽 언어만 써도 된다. 반대 언어 목록에는 원문으로 노출되고, 글 상단에 안내 줄이 붙는다.
+- `draft: true`인 글은 배포되지 않는다. `just serve`는 초안도 보여준다.
+- 한 언어만 쓸 거면 나머지 파일은 지워도 되고, `draft`로 남겨둬도 배포되지 않는다.
+- 한쪽 언어만 발행하면 반대 언어 목록에는 원문으로 노출되고, 글 상단에 안내 줄이 붙는다.
 
 ## 코드 하이라이팅
 
-Catppuccin(Latte/Mocha). 생성물은 커밋되어 있으므로 테마를 바꿀 때만 다시 돌린다.
-
-```sh
-./scripts/gen-chroma.sh
-```
+Catppuccin(Latte/Mocha). 생성물은 커밋되어 있으므로 테마를 바꿀 때만 `just chroma`를 돌린다.
 
 ## 배포
 

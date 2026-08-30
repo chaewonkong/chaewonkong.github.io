@@ -84,6 +84,15 @@ draft: false
 
 `author`는 사이트 전역 설정으로 빼고 글에는 쓰지 않는다.
 
+### 글 생성
+
+`archetypes/post/`가 **디렉터리 아키타입**이라 `hugo new content post/<slug>` 한 번으로
+`index.ko.md`와 `index.en.md`가 함께 만들어진다. 아키타입 안에서 `.Name`이 곧 slug이므로
+`slug`와 `date`는 자동으로 채워지고, 두 언어의 slug가 어긋날 일이 없다.
+
+`justfile`이 이를 감싼다: `just new <slug>`. `draft: true`로 생성되므로 실수로 배포되지 않으며,
+`just serve`(`hugo server -D`)에서만 보인다.
+
 ---
 
 ## 3. 레이아웃
