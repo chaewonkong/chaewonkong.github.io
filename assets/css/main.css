@@ -236,6 +236,8 @@ code {
 
 .highlight { margin: 0 0 18px; }
 
+pre.mermaid { margin: 0 0 18px; text-align: center; background: none; }
+
 .highlight pre.chroma,
 pre.chroma {
   margin: 0;
