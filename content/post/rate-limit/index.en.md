@@ -150,19 +150,20 @@ Track the timestamp of each request. When a new request arrives, remove the time
 ```text
   limit = 5 / 60s,  now = 100s
 
-  log (sorted timestamps)
+  log at the previous request (t = 99)
+  ◀──────────── window (39, 99] ────────────▶
   ┌──────┬──────┬──────┬──────┬──────┬──────┐
-  │  35  │  42  │  58  │  71  │  90  │  99  │
+  │  40  │  42  │  58  │  71  │  90  │  99  │
   └──┬───┴──────┴──────┴──────┴──────┴──────┘
      │
      └─ ≤ now-60 = 40 → expired, removed
 
-  append the new request's timestamp (100)
-  ┌──────┬──────┬──────┬──────┬──────┬──────┐
-  │  42  │  58  │  71  │  90  │  99  │ 100  │
-  └──────┴──────┴──────┴──────┴──────┴──────┘
-  ◀─────────── window (40, 100] ────────────▶
-         count = 6 > 5 → new request rejected
+  remove 40, append the new request's timestamp (100)
+         ┌──────┬──────┬──────┬──────┬──────┬──────┐
+         │  42  │  58  │  71  │  90  │  99  │ 100  │
+         └──────┴──────┴──────┴──────┴──────┴──────┘
+         ◀─────────── window (40, 100] ────────────▶
+                count = 6 > 5 → new request rejected
 ```
 
 #### Characteristics
